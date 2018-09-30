@@ -58,25 +58,49 @@ class Product {
 }
 
 (function() {
-  const clickEvent = document.ontouchstart !== null ? 'click' : 'touchstart';
-  let products = [];
-  console.log(clickEvent);
+  const products = [],
+    productsWrapper = document.querySelectorAll('.product__wrapper'),
+    productsLink = document.querySelectorAll('.product__link'),
+    clickEvent = document.ontouchstart !== null ? 'click' : 'touchstart';
 
-  document.querySelectorAll('.product__wrapper').forEach(product => {
-    products.push(
-      new Product(
-        false,
-        product,
-        product.classList.contains('product--disabled')
-      )
-    );
+  for (let product in productsWrapper) {
+    if (!isNaN(product)) {
+      products.push(
+        new Product(
+          false,
+          productsWrapper[product],
+          productsWrapper[product].classList.contains('product--disabled')
+        )
+      );
 
-    product.addEventListener(clickEvent, onProductClickHandler);
-  });
+      productsWrapper[product].addEventListener(
+        clickEvent,
+        onProductClickHandler
+      );
+    }
+  }
 
-  document
-    .querySelectorAll('.product__link')
-    .forEach(link => link.addEventListener('click', onLinkClickHandler));
+  for (let link in productsLink) {
+    if (!isNaN(link)) {
+      productsLink[link].addEventListener('click', onLinkClickHandler);
+    }
+  }
+
+  // document.querySelectorAll('.product__wrapper').forEach(product => {
+  //   products.push(
+  //     new Product(
+  //       false,
+  //       product,
+  //       product.classList.contains('product--disabled')
+  //     )
+  //   );
+
+  //   product.addEventListener(clickEvent, onProductClickHandler);
+  // });
+
+  // document
+  //   .querySelectorAll('.product__link')
+  //   .forEach(link => link.addEventListener('click', onLinkClickHandler));
 
   function onProductClickHandler(e) {
     products.forEach(product => {
